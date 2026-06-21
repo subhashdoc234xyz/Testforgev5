@@ -18,8 +18,16 @@ import {
   MessageSquareDiff, 
   FolderSync 
 } from "lucide-react";
+import { useAuth } from "./context/AuthContext";
+import LoginForm from "./components/auth/LoginForm";
+import RegisterForm from "./components/auth/RegisterForm";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import UserMenu from "./components/auth/UserMenu";
 
 export default function App() {
+  const { currentUser, idToken } = useAuth();
+  const [authView, setAuthView] = useState<"login" | "register" | "forgot">("login");
+
   const [requirement, setRequirement] = useState("");
   const [refinementText, setRefinementText] = useState("");
   const [testCases, setTestCases] = useState<TestCase[]>([]);
@@ -39,11 +47,21 @@ export default function App() {
   const [cachedDrafts, setCachedDrafts] = useState<TestCase[]>([]);
   const [cachedCritiques, setCachedCritiques] = useState<Critique[]>([]);
 
+  // Get request headers with Authorization token if available
+  const getHeaders = () => {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (idToken) {
+      headers["Authorization"] = `Bearer ${idToken}`;
+    }
+    return headers;
+  };
+
   // Show a message toast
   const triggerToast = (text: string, type: "success" | "info" = "success") => {
     setToastMsg({ text, type });
     setTimeout(() => setToastMsg(null), 4000);
   };
+
 
   // Run the full sequential client-friendly pipeline with beautiful stage updates
   const runFullPipeline = async (inputReq: string, refInstruction?: string, existingCases?: TestCase[]) => {
@@ -58,7 +76,7 @@ export default function App() {
       // Step 1: Drafting
       const draftRes = await fetch("/api/generate-step", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getHeaders(),
         body: JSON.stringify({
           step: "drafting",
           requirement: inputReq,
@@ -80,7 +98,7 @@ export default function App() {
       setProgress({ stage: "gaps", stepName: "Stage 2: Skeptic scanning constraints for gaps" });
       const critiqueRes = await fetch("/api/generate-step", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getHeaders(),
         body: JSON.stringify({
           step: "critique",
           requirement: inputReq,
@@ -110,7 +128,7 @@ export default function App() {
       setProgress({ stage: "resolving", stepName: "Stage 3: Builder debating skepticism and updating suite" });
       const builderRespRes = await fetch("/api/generate-step", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getHeaders(),
         body: JSON.stringify({
           step: "response",
           requirement: inputReq,
@@ -173,7 +191,7 @@ export default function App() {
         setProgress({ stage: "gaps", stepName: "Retrying Stage 2: Skeptic scanning" });
         const res = await fetch("/api/generate-step", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getHeaders(),
           body: JSON.stringify({
             step: "critique",
             requirement,
@@ -196,7 +214,7 @@ export default function App() {
         setProgress({ stage: "resolving", stepName: "Proceeding to Stage 3: Resolving" });
         const respRes = await fetch("/api/generate-step", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getHeaders(),
           body: JSON.stringify({
             step: "response",
             requirement,
@@ -218,7 +236,7 @@ export default function App() {
         setProgress({ stage: "resolving", stepName: "Retrying Stage 3: Resolving" });
         const respRes = await fetch("/api/generate-step", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getHeaders(),
           body: JSON.stringify({
             step: "response",
             requirement,
@@ -264,7 +282,7 @@ export default function App() {
     try {
       const response = await fetch("/api/sync-test-case", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getHeaders(),
         body: JSON.stringify({ testCase: targetCase }),
       });
 
@@ -310,7 +328,7 @@ export default function App() {
       for (const tc of unsyncedCases) {
         const response = await fetch("/api/sync-test-case", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getHeaders(),
           body: JSON.stringify({ testCase: tc }),
         });
 
@@ -341,6 +359,47 @@ export default function App() {
     }
   };
 
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen text-gray-100 font-sans flex items-center justify-center p-4 relative overflow-x-hidden">
+        {/* Mesh Background */}
+        <div className="mesh-bg" />
+
+        {/* Decorative floating grids */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="space-y-6 flex flex-col items-center w-full max-w-md">
+          <div className="text-center relative py-2">
+            <h1 className="text-4xl font-extrabold tracking-tight text-white mb-1 font-display">
+              Test<span className="text-indigo-400 font-bold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Forge</span>
+            </h1>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-3 backdrop-blur-md">
+              <Layers className="w-3 h-3 text-indigo-400 animate-pulse" />
+              <span className="text-[9px] font-mono tracking-widest uppercase font-bold text-gray-300">
+                Dual-Agent Adversarial QA Engine
+              </span>
+            </div>
+          </div>
+
+          {authView === "login" && (
+            <LoginForm
+              onRegisterClick={() => setAuthView("register")}
+              onForgotPasswordClick={() => setAuthView("forgot")}
+            />
+          )}
+          {authView === "register" && (
+            <RegisterForm onLoginClick={() => setAuthView("login")} />
+          )}
+          {authView === "forgot" && (
+            <ForgotPassword onBackToLoginClick={() => setAuthView("login")} />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen text-gray-100 font-sans pb-16 relative overflow-x-hidden">
       {/* Mesh Background */}
@@ -349,6 +408,11 @@ export default function App() {
       {/* Decorative floating grids */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* User Menu Dropdown (Top Right) */}
+      <div className="absolute top-6 right-6 z-50">
+        <UserMenu />
+      </div>
 
       {/* Toast Alert */}
       {toastMsg && (
