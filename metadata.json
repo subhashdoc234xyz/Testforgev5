@@ -1,0 +1,6 @@
+{
+  "name": "TestForge",
+  "description": "An adversarial QA assistant where two AI agents debate and refine software requirements into high-quality test cases.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
