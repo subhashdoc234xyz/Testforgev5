@@ -8,7 +8,7 @@
 
 <div align="center">
 
-![TestForge Banner](docs/testforge-banner.png)
+![TestForge Banner](docs/testforge-banner.jpg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Track](https://img.shields.io/badge/Track-UiPath%20Test%20Cloud-blue)]()
