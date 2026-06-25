@@ -25,15 +25,15 @@ const TEMPLATES = [
 
 export default function InputPanel({ value, onChange, onSubmit, loading }: InputPanelProps) {
   return (
-    <div className="w-full bg-white/5 border border-white/12 rounded-2xl p-6 backdrop-blur-xl shadow-xl transition-all duration-300">
+    <div className="w-full glass-card p-6 transition-all duration-300">
       <div className="flex items-center gap-2 mb-4">
-        <ClipboardList className="w-5 h-5 text-indigo-400" />
-        <h2 className="text-sm font-semibold tracking-wider text-white uppercase font-display">
+        <ClipboardList className="w-5 h-5 text-[#0369a1]" />
+        <h2 className="text-[11px] font-medium tracking-[0.08em] text-[#0369a1] uppercase">
           Describe System Requirements
         </h2>
       </div>
 
-      <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+      <p className="text-xs text-[#0369a1] mb-4 leading-relaxed">
         Pass in a features list, user stories, or a comprehensive spec. TestForge will spin up two adversarial AI agents to draft and review the corresponding test cases.
       </p>
 
@@ -45,7 +45,7 @@ export default function InputPanel({ value, onChange, onSubmit, loading }: Input
             type="button"
             onClick={() => !loading && onChange(tpl.text)}
             disabled={loading}
-            className="px-3 py-1.5 text-xs text-left bg-white/5 hover:bg-white/10 active:bg-white/15 text-gray-300 hover:text-white rounded-lg border border-white/8 transition-all duration-200 cursor-pointer disabled:opacity-50"
+            className="px-3 py-1.5 text-xs text-left bg-white/45 hover:bg-white/70 text-[#1d4ed8] rounded-md border border-[rgba(37,99,235,0.20)] hover:border-[rgba(37,99,235,0.40)] transition-all duration-200 cursor-pointer disabled:opacity-50"
           >
             {tpl.label}
           </button>
@@ -59,10 +59,10 @@ export default function InputPanel({ value, onChange, onSubmit, loading }: Input
           disabled={loading}
           placeholder="e.g. User should be able to upload profile image up to 5MB. Accepts PNG, JPG only, returns 400 Bad Request on larger or unapproved formatted images..."
           rows={5}
-          className="w-full p-4 bg-black/30 text-sm text-gray-200 border border-white/8 rounded-xl focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all font-sans leading-relaxed resize-none disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full p-4 bg-white/45 text-sm text-[#0c4a6e] border border-white/75 rounded-[10px] focus:border-[rgba(37,99,235,0.45)] focus:outline-none transition font-sans leading-relaxed resize-none disabled:opacity-60 disabled:cursor-not-allowed placeholder:text-[#7dd3fc]"
         />
         
-        <div className="absolute bottom-3 right-3 text-[10px] text-gray-500 font-mono">
+        <div className="absolute bottom-3 right-3 text-[10px] text-[#0369a1]/50 font-mono">
           {value.length} chars
         </div>
       </div>
@@ -71,16 +71,16 @@ export default function InputPanel({ value, onChange, onSubmit, loading }: Input
         <button
           onClick={onSubmit}
           disabled={loading || value.trim().length < 8}
-          className={`px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-indigo-900/40 transition-all duration-200 cursor-pointer select-none border border-indigo-400/20 active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none hover:scale-102`}
+          className={`px-5 py-2.5 bg-[#2563eb] hover:bg-[#1d4ed8] active:bg-[#1e40af] text-white text-[13px] font-medium rounded-lg flex items-center gap-2 transition-all duration-150 cursor-pointer select-none border-none active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none`}
         >
           {loading ? (
             <>
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
               Processing Debate Loop...
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4 text-violet-200" />
+              <Sparkles className="w-4 h-4" />
               Generate & Review Test Cases
             </>
           )}
