@@ -362,19 +362,22 @@ export default function App() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen text-primary font-sans flex items-center justify-center p-4 relative overflow-x-hidden">
-        <div className="bg-app-gradient" />
-        <div className="bg-blob-1" />
-        <div className="bg-blob-2" />
+      <div className="min-h-screen text-gray-100 font-sans flex items-center justify-center p-4 relative overflow-x-hidden">
+        {/* Mesh Background */}
+        <div className="mesh-bg" />
+
+        {/* Decorative floating grids */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="space-y-6 flex flex-col items-center w-full max-w-md">
           <div className="text-center relative py-2">
-            <h1 className="text-4xl font-bold tracking-tight text-[#0c4a6e] mb-1">
-              TestForge
+            <h1 className="text-4xl font-extrabold tracking-tight text-white mb-1 font-display">
+              Test<span className="text-indigo-400 font-bold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Forge</span>
             </h1>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/50 border border-white/80 rounded-full mb-3 backdrop-blur-md">
-              <Layers className="w-3 h-3 text-[#2563eb]" />
-              <span className="text-[9px] tracking-widest uppercase font-bold text-[#0369a1]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-3 backdrop-blur-md">
+              <Layers className="w-3 h-3 text-indigo-400 animate-pulse" />
+              <span className="text-[9px] font-mono tracking-widest uppercase font-bold text-gray-300">
                 Dual-Agent Adversarial QA Engine
               </span>
             </div>
@@ -398,55 +401,50 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen text-primary font-sans pb-16 relative overflow-x-hidden">
-      <div className="bg-app-gradient" />
-      <div className="bg-blob-1" />
-      <div className="bg-blob-2" />
+    <div className="min-h-screen text-gray-100 font-sans pb-16 relative overflow-x-hidden">
+      {/* Mesh Background */}
+      <div className="mesh-bg" />
 
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 h-[52px] glass-nav z-50 flex items-center justify-between px-6">
-        <div className="text-[15px] font-medium text-[#0c4a6e]">
-          TestForge
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="border-[0.5px] border-[rgba(37,99,235,0.25)] text-[#1d4ed8] text-[11px] px-[10px] py-[4px] rounded-[4px] bg-[rgba(219,234,254,0.5)] font-medium">
-            Track 3 — UiPath Test Cloud
-          </div>
-          <UserMenu />
-        </div>
-      </nav>
+      {/* Decorative floating grids */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* User Menu Dropdown (Top Right) */}
+      <div className="absolute top-6 right-6 z-50">
+        <UserMenu />
+      </div>
 
       {/* Toast Alert */}
       {toastMsg && (
-        <div id="toast-banner" className={`fixed top-16 right-6 z-50 p-4 rounded-xl shadow-2xl backdrop-blur-md border flex items-center gap-3 max-w-sm ${
+        <div id="toast-banner" className={`fixed top-6 right-6 z-50 p-4 rounded-xl shadow-2xl backdrop-blur-md border animate-bounce flex items-center gap-3 max-w-sm ${
           toastMsg.type === "success" 
-            ? "bg-emerald-500/15 border-emerald-400 text-emerald-800"
-            : "bg-indigo-500/15 border-indigo-400 text-indigo-800"
+            ? "bg-emerald-500/15 border-emerald-400 text-emerald-200" 
+            : "bg-indigo-500/15 border-indigo-400 text-indigo-200"
         }`}>
           <div className={`p-1.5 rounded-lg ${toastMsg.type === "success" ? "bg-emerald-500/20" : "bg-indigo-500/20"}`}>
-            {toastMsg.type === "success" ? <Check className="w-4 h-4 text-emerald-600" /> : <Activity className="w-4 h-4 text-indigo-600" />}
+            {toastMsg.type === "success" ? <Check className="w-4 h-4" /> : <Activity className="w-4 h-4" />}
           </div>
-          <span className="text-xs font-semibold leading-relaxed">{toastMsg.text}</span>
+          <span className="text-xs font-semibold leading-relaxed font-mono">{toastMsg.text}</span>
         </div>
       )}
 
       {/* Primary Centered Shell */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[72px] space-y-8" id="testforge-app-shell">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-8" id="testforge-app-shell">
         
         {/* Header App Title Banner */}
         <header className="text-center relative py-6" id="tf-header">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/50 border border-white/80 rounded-full mb-3 backdrop-blur-md">
-            <Layers className="w-3.5 h-3.5 text-[#2563eb]" />
-            <span className="text-[10px] tracking-widest uppercase font-bold text-[#0369a1]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-3 backdrop-blur-md">
+            <Layers className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
+            <span className="text-[10px] font-mono tracking-widest uppercase font-bold text-gray-300">
               Dual-Agent Adversarial QA Engine
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#0c4a6e] mb-3">
-            TestForge
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3 font-display">
+            Test<span className="text-indigo-400 font-bold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Forge</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-[#0369a1] antialiased leading-relaxed">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 antialiased font-sans leading-relaxed">
             Submit a requirement, and watch two independent AI agents negotiate, find missing test paths, and construct premium vetted test suites automatically.
           </p>
         </header>
@@ -465,8 +463,8 @@ export default function App() {
         {progress.stage !== "idle" && (
           <section id="pipeline-tracker-section" className="transition-all duration-300">
             {progress.stage !== "complete" && progress.stage !== "error" && (
-              <div className="text-center text-xs text-[#0369a1] mb-2 flex items-center justify-center gap-2">
-                <RotateCw className="w-3.5 h-3.5 text-[#2563eb]" />
+              <div className="text-center text-xs text-indigo-300 font-mono mb-2 flex items-center justify-center gap-2">
+                <RotateCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
                 <span>{progress.stepName || "Executing adversarial phase..."}</span>
               </div>
             )}
@@ -480,15 +478,15 @@ export default function App() {
 
         {/* Results layout */}
         {testCases.length > 0 && (
-          <main className="space-y-8" id="results-display-area">
+          <main className="space-y-8 animate-fade-in" id="results-display-area">
             
             {/* Header counters */}
-            <div className="flex items-center justify-between border-b border-[#0c4a6e]/10 pb-4 flex-wrap gap-4">
+            <div className="flex items-center justify-between border-b border-white/8 pb-4 flex-wrap gap-4">
               <div>
-                <h3 className="text-lg font-bold text-[#0c4a6e]">
+                <h3 className="text-lg font-bold text-white font-display">
                   Vetted Test Cases ({testCases.length})
                 </h3>
-                <p className="text-xs text-[#0369a1] mt-1">
+                <p className="text-xs text-gray-400 mt-1">
                   Double-checked and verified by Skeptic adversarial reviews.
                 </p>
               </div>
@@ -496,20 +494,19 @@ export default function App() {
               <button
                 onClick={handleSyncAll}
                 disabled={syncingAll}
-                className="px-4 py-2 bg-white/50 border border-[rgba(37,99,235,0.20)] text-[#1d4ed8] hover:bg-white/75 hover:border-[rgba(37,99,235,0.40)] font-normal text-xs rounded-xl flex items-center gap-2 transition cursor-pointer active:scale-95 disabled:opacity-50"
+                className="px-4 py-2 bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 hover:text-white hover:bg-indigo-600/30 font-semibold text-xs rounded-xl flex items-center gap-2 transition cursor-pointer active:scale-95 disabled:opacity-50"
               >
-                <FolderSync className="w-4 h-4 text-[#1d4ed8]" />
+                <FolderSync className="w-4 h-4 text-indigo-400" />
                 {syncingAll ? "Syncing Batch..." : "Sync All Vetted Cases"}
               </button>
             </div>
 
             {/* Test Case responsive grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="testcase-grid">
-              {testCases.map((tc, idx) => (
+              {testCases.map((tc) => (
                 <TestCaseCard
                   key={tc.id}
                   testCase={tc}
-                  index={idx}
                   onSync={handleSyncTestCase}
                   syncing={!!syncingMap[tc.id]}
                   syncedId={syncStatus[tc.id] || null}
@@ -527,15 +524,15 @@ export default function App() {
             </section>
 
             {/* Refinement Flow section */}
-            <section id="refinement-controls" className="glass-card">
+            <section id="refinement-controls" className="bg-white/5 border border-white/12 rounded-2xl p-6 backdrop-blur-xl">
               <div className="flex items-center gap-2 mb-3">
-                <MessageSquareDiff className="w-4 h-4 text-[#0369a1]" />
-                <h3 className="text-[11px] font-medium tracking-[0.08em] text-[#0369a1] uppercase">
+                <MessageSquareDiff className="w-4 h-4 text-indigo-400" />
+                <h3 className="text-sm font-semibold tracking-wider text-white uppercase font-display">
                   Refine These Test Cases
                 </h3>
               </div>
 
-              <p className="text-xs text-[#0369a1] mb-4 leading-relaxed">
+              <p className="text-xs text-gray-400 mb-4 leading-relaxed">
                 Need to add specific edge cases, mock configurations, or update testing constraints? Describe your adjustments and the dual-agents will re-evaluate!
               </p>
 
@@ -545,12 +542,12 @@ export default function App() {
                   value={refinementText}
                   onChange={(e) => setRefinementText(e.target.value)}
                   placeholder="e.g., Assert HTTP 403 Forbidden specifically when authorization claims are absent..."
-                  className="flex-1 bg-white/45 border border-white/75 rounded-[10px] px-4 py-2 text-sm text-[#0c4a6e] focus:outline-none focus:border-[rgba(37,99,235,0.45)] transition placeholder:text-[#7dd3fc]"
+                  className="flex-1 bg-black/30 border border-white/8 rounded-xl px-4 py-2 text-sm text-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                 />
                 <button
                   onClick={handleRefine}
                   disabled={!refinementText.trim() || progress.stage === "drafting" || progress.stage === "gaps" || progress.stage === "resolving"}
-                  className="px-5 py-2.5 bg-[#2563eb] hover:bg-[#1d4ed8] active:bg-[#1e40af] text-white text-[13px] font-medium rounded-lg transition cursor-pointer flex items-center gap-1.5 active:scale-98 disabled:opacity-40"
+                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition cursor-pointer flex items-center gap-1.5 active:scale-98 disabled:opacity-40"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   Apply Refinement

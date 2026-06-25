@@ -40,29 +40,29 @@ export default function ForgotPassword({ onBackToLoginClick }: ForgotPasswordPro
   };
 
   return (
-    <div className="w-full max-w-md glass-card p-8 space-y-6">
+    <div className="w-full max-w-md bg-white/5 border border-white/12 rounded-2xl p-8 backdrop-blur-xl shadow-2xl space-y-6">
       <div className="text-center">
-        <h2 className="text-3xl font-extrabold tracking-tight text-[#0c4a6e] font-display mb-1">
+        <h2 className="text-3xl font-extrabold tracking-tight text-white font-display mb-1">
           Reset Password
         </h2>
-        <p className="text-xs text-[#0369a1] font-sans">
+        <p className="text-xs text-gray-400 font-sans">
           We will send you instructions to reset your password
         </p>
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl flex items-start gap-2.5 font-mono">
-          <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+        <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-200 text-xs rounded-xl flex items-start gap-2.5 font-mono animate-pulse">
+          <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-start gap-3 font-sans">
-          <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-xs rounded-xl flex items-start gap-3 font-sans">
+          <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-bold text-sm text-[#065f46]">Reset email sent!</h4>
-            <p className="text-xs text-[#065f46] mt-1 leading-relaxed">
+            <h4 className="font-bold text-sm text-white">Reset email sent!</h4>
+            <p className="text-xs text-gray-400 mt-1 leading-relaxed">
               Check your inbox for a message with a link to reset your password.
             </p>
           </div>
@@ -72,18 +72,18 @@ export default function ForgotPassword({ onBackToLoginClick }: ForgotPasswordPro
       {!success && (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[11px] font-semibold text-[#0369a1] font-sans mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-gray-300 font-sans mb-1.5 uppercase tracking-wider">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-3 w-4 h-4 text-[#7dd3fc]" />
+              <Mail className="absolute left-3.5 top-3 w-4 h-4 text-gray-500" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
                 placeholder="name@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-white/45 text-sm text-[#0c4a6e] border border-white/75 rounded-xl focus:border-[#2563eb]/45 focus:outline-none transition-all font-sans placeholder:text-[#7dd3fc]"
+                className="w-full pl-10 pr-4 py-2.5 bg-black/30 text-sm text-gray-200 border border-white/8 rounded-xl focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all font-sans"
                 required
               />
             </div>
@@ -92,10 +92,10 @@ export default function ForgotPassword({ onBackToLoginClick }: ForgotPasswordPro
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 mt-2 bg-[#2563eb] hover:bg-[#1d4ed8] active:bg-[#1e40af] text-white text-[13px] font-medium rounded-lg flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full py-2.5 mt-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/40 transition-all duration-200 cursor-pointer border border-indigo-400/20 active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <>
                 <Send className="w-4 h-4" />
@@ -110,7 +110,7 @@ export default function ForgotPassword({ onBackToLoginClick }: ForgotPasswordPro
         <button
           onClick={onBackToLoginClick}
           disabled={loading}
-          className="text-xs text-[#0369a1] hover:text-[#0c4a6e] transition-all flex items-center justify-center gap-1.5 mx-auto cursor-pointer font-medium"
+          className="text-xs text-gray-400 hover:text-white transition-all flex items-center justify-center gap-1.5 mx-auto cursor-pointer font-medium"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Back to Sign In
