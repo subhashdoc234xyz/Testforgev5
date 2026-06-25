@@ -12,15 +12,17 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-gray-100 font-sans relative">
-        <div className="mesh-bg absolute inset-0 -z-10" />
-        <div className="bg-white/5 border border-white/12 rounded-2xl p-8 backdrop-blur-xl shadow-2xl flex flex-col items-center gap-4 max-w-sm text-center">
-          <div className="p-4 bg-indigo-500/10 rounded-full border border-indigo-500/20">
-            <RotateCw className="w-8 h-8 text-indigo-400 animate-spin" />
+      <div className="min-h-screen flex flex-col items-center justify-center text-[#0c4a6e] font-sans relative">
+        <div className="bg-app-gradient" />
+        <div className="bg-blob-1" />
+        <div className="bg-blob-2" />
+        <div className="glass-card p-8 flex flex-col items-center gap-4 max-w-sm text-center">
+          <div className="p-4 bg-[#2563eb]/10 rounded-full border border-[#2563eb]/20">
+            <RotateCw className="w-8 h-8 text-[#2563eb]" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white font-display">Initializing TestForge</h3>
-            <p className="text-xs text-gray-400 mt-1">Securing connection and loading session...</p>
+            <h3 className="text-lg font-bold text-[#0c4a6e] font-display">Initializing TestForge</h3>
+            <p className="text-xs text-[#0369a1] mt-1">Securing connection and loading session...</p>
           </div>
         </div>
       </div>

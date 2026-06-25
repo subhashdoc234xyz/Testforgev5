@@ -58,7 +58,7 @@ export default function PipelineTracker({ stage, errorMsg, onRetry }: PipelineTr
   ];
 
   return (
-    <div className="w-full bg-white/5 border border-white/12 rounded-2xl p-5 backdrop-blur-xl shadow-md transition-all duration-300">
+    <div className="w-full glass-card p-5 transition-all duration-300">
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-6">
         {steps.map((step, idx) => {
           const isActive = step.status === "active";
@@ -70,49 +70,36 @@ export default function PipelineTracker({ stage, errorMsg, onRetry }: PipelineTr
               {/* Step item */}
               <div className="flex-1 flex items-center gap-3">
                 <div className="relative flex items-center justify-center">
-                  {isActive && (
-                    <span className="absolute inline-flex h-8 w-8 rounded-full bg-indigo-500/30 animate-ping" />
-                  )}
                   <div
-                    className={`relative w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                    className={`relative w-[22px] h-[22px] rounded-full flex items-center justify-center transition-all duration-300 ${
                       isCompleted
-                        ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
+                        ? "bg-[#2563eb] text-white"
                         : isActive
-                        ? "bg-indigo-600/20 border-indigo-400 text-indigo-400 font-bold"
+                        ? "bg-white border-[1.5px] border-[#2563eb] text-[#2563eb] font-medium"
                         : isFailed
-                        ? "bg-rose-500/15 border-rose-500 text-rose-400"
-                        : "bg-white/5 border-white/10 text-gray-500"
+                        ? "bg-rose-500/15 border border-rose-500 text-rose-600"
+                        : "bg-white border border-[#bfdbfe] text-[#93c5fd]"
                     }`}
                   >
                     {isCompleted ? (
-                      <CheckCircle2 className="w-5 h-5" />
-                    ) : isFailed ? (
-                      <AlertCircle className="w-5 h-5" />
-                    ) : isActive ? (
-                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                     ) : (
-                      <div className="w-2.5 h-2.5 rounded-full bg-gray-600" />
+                      <span className="text-[11px]">{idx + 1}</span>
                     )}
                   </div>
                 </div>
 
                 <div className="flex flex-col">
                   <span
-                    className={`text-xs font-mono font-bold tracking-wide transition-colors duration-300 ${
-                      isActive
-                        ? "text-indigo-400"
-                        : isCompleted
-                        ? "text-emerald-400"
-                        : isFailed
-                        ? "text-rose-400"
-                        : "text-gray-500"
+                    className={`text-[11px] font-medium transition-colors duration-300 ${
+                      isActive || isCompleted ? "text-[#0369a1]" : "text-[#93c5fd]"
                     }`}
                   >
                     {step.title}
                   </span>
                   <span
-                    className={`text-sm tracking-tight transition-colors duration-300 ${
-                      isActive || isCompleted ? "text-white font-medium" : "text-gray-400"
+                    className={`text-[11px] tracking-tight transition-colors duration-300 ${
+                      isActive || isCompleted ? "text-[#0369a1]" : "text-[#93c5fd]"
                     }`}
                   >
                     {step.desc}
@@ -122,7 +109,7 @@ export default function PipelineTracker({ stage, errorMsg, onRetry }: PipelineTr
 
               {/* Connector arrow */}
               {idx < steps.length - 1 && (
-                <div className="hidden md:block text-gray-700 text-lg select-none">→</div>
+                <div className={`hidden md:block w-8 h-[1px] ${isCompleted ? "bg-[#2563eb]" : "bg-[#bfdbfe]"}`} />
               )}
             </React.Fragment>
           );
@@ -130,15 +117,15 @@ export default function PipelineTracker({ stage, errorMsg, onRetry }: PipelineTr
       </div>
 
       {stage === "error" && errorMsg && (
-        <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center justify-between text-sm text-rose-300 animate-slide-up">
+        <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center justify-between text-sm text-rose-600">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+            <AlertCircle className="w-4 h-4 text-[#dc2626] shrink-0" />
             <span>{errorMsg}</span>
           </div>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="px-3 py-1 bg-rose-900/40 hover:bg-rose-900/60 text-rose-200 text-xs font-medium rounded-lg border border-rose-500/40 transition active:scale-95 cursor-pointer"
+              className="px-3 py-1 bg-[#dc2626] hover:bg-[#b91c1c] text-white text-xs font-medium rounded-lg transition active:scale-95 cursor-pointer"
             >
               Retry Step
             </button>
