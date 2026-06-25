@@ -5,13 +5,12 @@ import { Check, Flame, AlertCircle, ArrowRight, ShieldCheck, Activity, Copy, Che
 interface TestCaseCardProps {
   key?: string | number;
   testCase: TestCase;
-  index: number;
   onSync: (id: string) => void;
   syncing: boolean;
   syncedId: string | null;
 }
 
-export default function TestCaseCard({ testCase, index, onSync, syncing, syncedId }: TestCaseCardProps) {
+export default function TestCaseCard({ testCase, onSync, syncing, syncedId }: TestCaseCardProps) {
   const [showDiff, setShowDiff] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -19,11 +18,11 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
   const getStatusMeta = (status: "draft" | "revised" | "final") => {
     switch (status) {
       case "draft":
-        return { color: "#475569", bg: "rgba(241,245,249,0.6)", border: "0.5px solid #94a3b8", label: "Draft" };
+        return { color: "bg-slate-400", bg: "bg-slate-500/10", border: "border-slate-500/25", label: "Draft" };
       case "revised":
-        return { color: "#92400e", bg: "rgba(254,243,199,0.6)", border: "0.5px solid #d97706", label: "Reviewed & Fixed" };
+        return { color: "bg-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/25", label: "Reviewed & Fixed" };
       case "final":
-        return { color: "#065f46", bg: "rgba(209,250,229,0.6)", border: "0.5px solid #059669", label: "Finalized" };
+        return { color: "bg-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/25", label: "Finalized" };
     }
   };
 
@@ -31,13 +30,13 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
   const getPriorityMeta = (priority: "critical" | "high" | "medium" | "low") => {
     switch (priority) {
       case "critical":
-        return "border-[#dc2626] text-[#dc2626] bg-[rgba(254,226,226,0.4)]";
+        return "bg-rose-500/10 text-rose-400 border-rose-500/20";
       case "high":
-        return "border-[#ea580c] text-[#ea580c] bg-[rgba(255,237,213,0.4)]";
+        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
       case "medium":
-        return "border-[#d97706] text-[#d97706] bg-[rgba(254,243,199,0.4)]";
+        return "bg-indigo-500/10 text-indigo-400 border-indigo-500/20";
       case "low":
-        return "border-[#0369a1] text-[#0369a1] bg-[rgba(224,242,254,0.4)]";
+        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
     }
   };
 
@@ -67,13 +66,12 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
   return (
     <div
       id={`tc-${testCase.id}`}
-      className={`relative glass-card p-6 animate-card-entry transition-all duration-300 ${
-        testCase.isNew ? "ring-2 ring-[#2563eb]/40 border-[#2563eb]/40" : ""
+      className={`relative bg-white/5 border rounded-2xl p-5 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-indigo-500/40 hover:bg-white/[0.08] ${
+        testCase.isNew ? "ring-2 ring-indigo-500/40 border-indigo-400/40" : "border-white/12"
       }`}
-      style={{ animationDelay: `${index * 60}ms` }}
     >
       {testCase.isNew && (
-        <span className="absolute -top-2.5 -right-2.5 bg-[#2563eb] text-white text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded-full select-none shadow">
+        <span className="absolute -top-2.5 -right-2.5 bg-indigo-500 text-white text-[9px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded-full select-none shadow">
           Refined New
         </span>
       )}
@@ -81,41 +79,39 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
       {/* Header Info */}
       <div className="flex items-center justify-between gap-4 mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-medium text-[#0369a1] bg-[rgba(219,234,254,0.5)] border border-[rgba(37,99,235,0.25)] px-2 py-0.5 rounded-[4px]">
+          <span className="text-xs font-mono font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-lg">
             {testCase.id}
           </span>
-          <div
-            className="flex items-center gap-1.5 text-[11px] font-medium px-[10px] py-[4px] rounded-full"
-            style={{ backgroundColor: statusMeta.bg, border: statusMeta.border, color: statusMeta.color }}
-          >
+          <div className={`flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-0.5 rounded-full border ${statusMeta.bg} ${statusMeta.border} text-gray-300`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${statusMeta.color} ${testCase.status === "revised" ? "pulse-glow" : ""}`} />
             {statusMeta.label}
           </div>
         </div>
 
         <div className="flex items-center gap-1.5">
-          <span className={`text-[10px] font-medium tracking-[0.06em] uppercase px-2 py-0.5 border rounded-[4px] ${priorityClass}`}>
+          <span className={`text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 border rounded-md ${priorityClass}`}>
             {testCase.priority}
           </span>
           <button
             onClick={handleCopy}
             title="Copy test case text to clipboard"
-            className="p-1 px-3 py-1.5 rounded-[6px] bg-white/50 hover:bg-white/75 text-[#1d4ed8] text-[12px] flex items-center gap-1 border border-[rgba(37,99,235,0.20)] transition"
+            className="p-1 px-1.5 rounded bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white text-xs flex items-center gap-1 border border-white/5 transition"
           >
-            {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+            {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
           </button>
         </div>
       </div>
 
       {/* Title */}
-      <h3 className="text-[15px] font-medium text-[#0c4a6e] tracking-tight leading-snug mb-3">
+      <h3 className="text-base font-semibold text-white tracking-tight leading-snug mb-3 font-display">
         {testCase.title}
       </h3>
 
       {/* Preconditions */}
       {testCase.preconditions && testCase.preconditions.length > 0 && (
         <div className="mb-4">
-          <h4 className="text-[11px] font-medium text-[#0369a1] uppercase tracking-[0.08em] mb-1.5">Preconditions</h4>
-          <ul className="text-[14px] text-[#0c4a6e] space-y-1 pl-4 list-disc marker:text-[#2563eb]">
+          <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest font-mono mb-1.5">Preconditions:</h4>
+          <ul className="text-xs text-gray-300 space-y-1 pl-4 list-disc marker:text-indigo-400">
             {testCase.preconditions.map((pre, i) => (
               <li key={i}>{pre}</li>
             ))}
@@ -125,19 +121,19 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
 
       {/* Steps list */}
       <div className="space-y-3 mb-5">
-        <h4 className="text-[11px] font-medium text-[#0369a1] uppercase tracking-[0.08em]">Test Sequence Steps</h4>
+        <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest font-mono">Test Sequence Steps:</h4>
         <div className="space-y-2.5">
           {testCase.steps.map((step, idx) => (
-            <div key={idx} className="bg-white/45 rounded-[10px] p-3 border border-white/75 text-[14px]">
+            <div key={idx} className="bg-black/20 rounded-xl p-3 border border-white/5 text-xs">
               <div className="flex items-start gap-2 mb-1">
-                <span className="text-[11px] bg-[rgba(219,234,254,0.5)] text-[#1d4ed8] px-1.5 py-0.5 rounded shrink-0">
+                <span className="font-mono text-[10px] bg-white/5 text-gray-400 px-1.5 py-0.5 rounded shrink-0">
                   {idx + 1}
                 </span>
-                <span className="text-[#0c4a6e] mt-0.5 leading-relaxed">{step.action}</span>
+                <span className="text-gray-200 mt-0.5 leading-relaxed">{step.action}</span>
               </div>
-              <div className="pl-7 text-[14px] text-[#2563eb] flex items-center gap-1.5">
-                <ArrowRight className="w-3.5 h-3.5 text-[#2563eb] shrink-0" />
-                <span className="leading-relaxed"><strong className="text-[#1d4ed8]">Assert:</strong> {step.expectedResult}</span>
+              <div className="pl-7 text-xs text-indigo-300 flex items-center gap-1.5">
+                <ArrowRight className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                <span className="leading-relaxed"><strong className="text-indigo-200">Assert:</strong> {step.expectedResult}</span>
               </div>
             </div>
           ))}
@@ -147,7 +143,7 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
       {/* Labels / Tags */}
       <div className="flex flex-wrap gap-1.5 mb-5">
         {testCase.labels && testCase.labels.map((lbl, idx) => (
-          <span key={idx} className="text-[12px] bg-white/45 border border-[rgba(37,99,235,0.20)] text-[#1d4ed8] px-[12px] py-[5px] rounded-[6px] hover:bg-white/70 hover:border-[rgba(37,99,235,0.40)] transition">
+          <span key={idx} className="text-[10px] font-mono bg-white/5 border border-white/5 text-gray-400 hover:text-white px-2 py-0.5 rounded-md transition">
             #{lbl.replace(/\s+/g, "_")}
           </span>
         ))}
@@ -192,32 +188,32 @@ export default function TestCaseCard({ testCase, index, onSync, syncing, syncedI
       )}
 
       {/* Sync bar */}
-      <div className="pt-4 border-t border-[#0c4a6e]/10 flex items-center justify-between gap-4">
-        <span className="text-[11px] text-[#0369a1] italic">Ready for Test Manager Suite</span>
+      <div className="pt-4 border-t border-white/8 flex items-center justify-between gap-4">
+        <span className="text-[11px] text-gray-400 italic">Ready for Test Manager Suite</span>
         
         {syncedId ? (
-          <div className="flex items-center gap-1 text-[#065f46] text-xs font-semibold px-3 py-1.5 bg-[rgba(209,250,229,0.6)] rounded-xl border border-[#059669]">
-            <ShieldCheck className="w-4 h-4" />
+          <div className="flex items-center gap-1 text-emerald-400 text-xs font-semibold px-3 py-1.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Synced ({syncedId})</span>
           </div>
         ) : (
           <button
             onClick={() => onSync(testCase.id)}
             disabled={syncing}
-            className={`px-[12px] py-[6px] text-[12px] font-normal text-[#1d4ed8] rounded-[6px] border transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 text-xs font-semibold text-white rounded-xl border transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
               syncing
-                ? "bg-white/50 border-[rgba(37,99,235,0.20)] opacity-60 pointer-events-none"
-                : "bg-white/50 border-[rgba(37,99,235,0.20)] hover:bg-white/75 hover:border-[rgba(37,99,235,0.40)]"
+                ? "bg-indigo-500/25 border-indigo-500/30 opacity-60 pointer-events-none"
+                : "bg-white/5 border-white/12 hover:bg-white/10 hover:border-indigo-400/30"
             }`}
           >
             {syncing ? (
               <>
-                <div className="w-3.5 h-3.5 border-2 border-[#1d4ed8]/30 border-t-[#1d4ed8] rounded-full" />
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Syncing...
               </>
             ) : (
               <>
-                <Activity className="w-3.5 h-3.5" />
+                <Activity className="w-3.5 h-3.5 text-indigo-400" />
                 Sync to Manager
               </>
             )}
